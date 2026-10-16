@@ -1,0 +1,32 @@
+BOEING-ZUSATZDATEN – CSV-PRÜFUNG UND ENTFERNUNGEN
+21,597 Verkaufszeilen; Originaldatei unverändert (SHA-256 vor/nach identisch).
+Zeitraum: 2014-05-02 bis 2015-05-27. sale_id vollständig und eindeutig.
+Koordinatenstatus: {'ok': 21597}
+Mehrfachverkäufe: 176 Immobilien, 353 Verkaufszeilen, 177 zusätzliche Verkäufe.
+Duplikate ohne sale_id: 0.
+Prüfhinweise: {'renovation_year_scale_review': 744, 'bedrooms_33_review': 1}. Keine dieser Zeilen wurde entfernt oder korrigiert.
+
+ERGEBNISDATEI
+king_county_boeing_features.csv enthält alle Originalzeilen in gleicher Reihenfolge.
+sale_id: Schlüssel zum Zusammenführen. id: Immobilien-ID, nicht eindeutig!
+source_row_1based: Position des Datensatzes ohne Kopfzeile, nur zur Nachverfolgung.
+source_date/source_lat/source_long: unveränderte Quellwerte zur Abstimmung.
+dist_boeing_{renton,auburn,kent,everett}_km: Luftlinie in km, Haversine, Erdradius 6371.0088 km; auf 0.001 km gespeichert. Diese Rundung bedeutet keine metergenaue Quellposition.
+nearest_of_four_boeing_sites / nearest_of_four_boeing_km: nächster der VIER ausgewählten Standorte. Keine vollständige Boeing-Standortliste.
+coordinate_status: ok bedeutet numerisch plausibel und innerhalb regionaler Bounding Box, keine verifizierte County-Zugehörigkeit.
+repeated_property_id: 1 bei mehreren Verkäufen derselben Immobilien-ID.
+source_quality_flags: getrennte Originaldaten-Prüfhinweise, keine automatische Ausschlussregel.
+source_sha256: Fingerabdruck der gelesenen Original-CSV.
+
+ENTFERNUNGSÜBERSICHT (Verkäufe, keine eindeutigen Häuser)
+dist_boeing_renton_km: Median 18.61 km; bis 5 km: 1189; bis 10 km: 3781
+dist_boeing_auburn_km: Median 34.58 km; bis 5 km: 521; bis 10 km: 1734
+dist_boeing_kent_km: Median 21.73 km; bis 5 km: 416; bis 10 km: 2946
+dist_boeing_everett_km: Median 40.16 km; bis 5 km: 0; bis 10 km: 0
+
+QUELLENQUALITÄT
+Standorte historisch belegt, Koordinaten aus heutigem Behördenregister. Keine überprüften Werkseingänge und keine historischen Pendelzeiten. Kent mit zusätzlicher Unsicherheit der historischen Standortzuordnung. Quellen pro Standort in boeing_reference_points.geojson. Noch keine Aussagen über Preiswirkungen.
+
+ÜBERGABE AN CLAUDE
+CSV mit pd.read_csv laden, sale_id auf beiden Seiten auf denselben Datentyp bringen. Zusatzspalten anhand sale_id per left merge mit validate='one_to_one' und sort=False ergänzen. Für ein von Claude bereinigtes Notebook ist eine Teilmenge der 21.597 Originalzeilen zulässig; keine entfernten Zeilen wieder hinzufügen. Vorher Spaltenkollisionen ausschließen, nachher Zeilenzahl, Reihenfolge, Übereinstimmung der source_lat/source_long und vollständige Matches prüfen. Niemals allein anhand id oder Zeilennummer verbinden. Falls Claude Koordinaten korrigiert hat, betroffene Entfernungen neu berechnen. SHA256-Abweichungen des gesamten Originals erfordern eine erneute Prüfung.
+Weitere Dateien: csv_pruefhinweise.csv (ein Hinweis pro Verkauf und Problem), boeing_entfernungen_uebersicht.csv (Kennzahlen), pruefbericht.json (vollständige Prüfresultate). Fehlende Werte stehen leer, niemals als Entfernung 0.

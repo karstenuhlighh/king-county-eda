@@ -1,0 +1,43 @@
+FLUGLÄRM 2013 – EXPLORATIVE ZUORDNUNG DER VERKÄUFE 2014/15
+
+ERGEBNIS
+Außerhalb der dargestellten 65-dB-DNL-Kontur: 21.552 Verkäufe.
+65 bis unter 70 dB DNL: 45 Verkäufe.
+70 bis unter 75 dB DNL: 0 Verkäufe.
+75 dB DNL und mehr: 0 Verkäufe.
+Summe: 21.597. Dies sind Transaktionen, keine Wohnungsbestandszahlen.
+
+GENAUIGKEIT UND GRENZFÄLLE
+Diese Zuordnung beruht auf manuell nachgezeichneten Konturen einer Bildkarte. Es sind keine offiziellen GIS-Polygone und keine am Haus gemessenen Schallwerte. Die Bestandskarte beschreibt 2013, die Verkäufe stammen aus 2014/15. Die 2018-Prognose wurde nicht benutzt.
+Bei einem 150-m-Puffer um die Konturen liegen 56 Verkäufe im Grenzbereich: 24 der zentral zugeordneten 45 Innenfälle und 32 Außenfälle. 21 Innenfälle bleiben bei einer um 150 m nach innen verschobenen 65-dB-Grenze enthalten. Bei Erweiterung um 150 m ergeben sich 77 Innenfälle. 21–77 ist eine Sensitivitätsspanne unter dieser Annahme, KEIN statistisches Konfidenzintervall und keine garantierte Fehlergrenze.
+Pufferszenarien: [{"buffer_m": 0, "inside_eroded_65_contour": 45, "inside_expanded_65_contour": 45}, {"buffer_m": 50, "inside_eroded_65_contour": 30, "inside_expanded_65_contour": 56}, {"buffer_m": 100, "inside_eroded_65_contour": 26, "inside_expanded_65_contour": 65}, {"buffer_m": 150, "inside_eroded_65_contour": 21, "inside_expanded_65_contour": 77}, {"buffer_m": 200, "inside_eroded_65_contour": 17, "inside_expanded_65_contour": 98}]
+Außerhalb 65 dB bedeutet nicht lärmfrei. Es werden keine spezifischen niedrigeren Lärmwerte behauptet. Für außerhalb des Kartenausschnitts liegende Häuser wird nur festgestellt, dass sie außerhalb der dargestellten SEA-Kontur liegen; anderer Fluglärm ist nicht untersucht.
+
+METHODE UND PRÜFUNG
+Offizielle Originalquelle: https://seapart150.com/wp-content/uploads/2024/09/Noise_Exposure_Map_Existing2013-scaled.jpg
+Arbeitsbild 2000 x 1294 Pixel. Norden zeigt nach rechts.
+Sechs manuell identifizierte Straßenkreuzungen aus dem OSM-Stand 2015-01-01T21:22:01Z dienen der affinen Einpassung. Zwei weitere Punkte wurden aus der finalen Anpassung ausgeschlossen, aber bereits während der explorativen Einpassung betrachtet. Sie sind daher keine unabhängige Blindvalidierung.
+Anpassungs-RMSE: 24.1 m. Prüfpunkt-RMSE: 80.2 m; größter Prüfpunktfehler rund 109 m. Die manuelle Ablesung, breite Konturlinien und gerundete Hauskoordinaten bringen zusätzliche Unsicherheit.
+Verwendetes metrisches Koordinatensystem: UTM 10N, EPSG:32610. GeoJSON wird in geographischen Längen-/Breitengraden ausgegeben. Die Quellenkarte enthält keine hier verifizierten amtlichen Passpunkte; diese Einpassung ersetzt keine amtliche Georeferenzierung.
+Die 70-dB-Kontur enthält zusätzlich einen getrennten westlichen Lappen. Verschachtelung der 65/70/75-Gebiete geprüft, keine inneren Teile lagen außerhalb ihrer Elternzone.
+Flächenkontrolle der drei Bänder: digitalisiert 3,775 / 1,263 / 0,886 Quadratmeilen, Kartenlegende 3,7 / 1,3 / 0,9. Die Abweichung liegt jeweils unter 3 Prozent. Das bestätigt nur die grobe Flächenplausibilität, nicht die parzellengenaue Lage.
+Exportierte GeoJSON-Datei erneut eingelesen: kumulierte Fallzahlen >=65/70/75 dB erneut 45/0/0. Zeilenzahl und sale_id-Reihenfolge erhalten. Original-CSV-Prüfsumme vor/nach identisch. Keine Änderungen an Notebook oder Original-CSV.
+
+DATEIEN UND ÜBERGABE AN CLAUDE
+king_county_noise_features.csv: Zusatzmerkmale für jede sale_id. Per sale_id, nicht Immobilien-id, verbinden. Bei schon bereinigtem Notebook nur vorhandene Zeilen behalten. source_lat und source_long gegen Notebook prüfen; bei korrigierten Koordinaten neu zuordnen.
+noise_band_2013_approx: zentrale, vorläufige Zonenklasse.
+boundary_uncertain_150m: 1 für Fälle innerhalb 150 m zu einer der Konturen.
+possible_bands_150m: mit einem 150-m-Lagepuffer vereinbare Klassen. Keine Wahrscheinlichkeiten.
+distance_to_nearest_contour_m: Abstand zur nächsten Kontur, unabhängig von innen/außen.
+grenzfaelle_150m.csv: 56 betroffene Transaktionen zur gesonderten Prüfung.
+verkaeufe_je_laermzone.csv: zentrale und pufferstabile Zuordnung. possible_sales-Spalten überlappen und dürfen NICHT über Klassen addiert werden.
+sensitivitaet_puffer.csv: Einziehen/Erweitern der 65-dB-Grenze um 0/50/100/150/200 m.
+noise_contours_2013_approx.geojson: kumulierte >=65, >=70, >=75-Konturen. Nicht als disjunkte Bänder addieren!
+qa_registration.json / georeferenzierung_eingaben.json: Passpunkte, Transformation, Pixelkonturen und Prüfwerte.
+zuordnung_kontrollkarte.png: Lageübersicht. Blau außerhalb, rot innen, orange grenznah, magenta nachgezeichnete Konturen. Die Bildkarte ist gedreht, Norden rechts.
+
+ANALYTISCHE FOLGERUNG
+Ein Preisvergleich zwischen drei Lärmstufen ist mit diesen Verkäufen nicht möglich: Die beiden höheren Stufen sind unbesetzt. Ein explorativer Vergleich 65–70 dB gegen nahe gelegene Außenfälle ist möglich, aber klein und empfindlich gegenüber der Grenzziehung. Lage, Flughafennähe und Hausmerkmale gemeinsam berücksichtigen. Keine kausale Preiswirkung aus diesen Fallzahlen ableiten. Vor einer abschließenden Präsentation der Preiseffekte möglichst die amtlichen GIS-Konturen beschaffen oder die Georeferenzierung unabhängig prüfen lassen.
+
+Quell-SHA256 Housing: d08eaa479a137962dd43735b7b930a6553e675bb61e39671af0802c90d21c7af
+OSM: OpenStreetMap contributors, ODbL, https://www.openstreetmap.org/copyright . Die herangezogenen OSM-Passpunkte liegen im historischen Geofabrik-Auszug: https://download.geofabrik.de/north-america/us/washington-150101.osm.pbf

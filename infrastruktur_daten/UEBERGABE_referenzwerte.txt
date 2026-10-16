@@ -1,0 +1,113 @@
+GEMEINSAME ÜBERGABE: BOEING, FLUGLÄRM UND FLUGHAFENANBINDUNG
+King County, Verkäufe 2014/15
+
+AUFTRAG FÜR CLAUDE
+Führe die drei separat vorbereiteten explorativen Analysen im neuen Review-Notebook zusammen. Prüfe die Ergebnisse anhand deiner tatsächlich verwendeten Datenbasis und bereite daraus einen zusammenhängenden Präsentationsabschnitt vor. Original-CSV und Original-Notebook unverändert lassen. Bereits vorhandene Arbeit erhalten; vorhandene Merkmale und Analysen nicht ungeprüft doppelt erzeugen.
+Die folgenden Resultate sind Referenzwerte aus der Original-CSV, keine garantierten Ergebnisse nach deinen Bereinigungen. Änderungen der Stichprobe und abweichende Ergebnisse offen dokumentieren. Keine neuen Ergebnisse erfinden, keine Hypothese allein anhand einzelner signifikanter Modelle bestätigen.
+
+GEMEINSAME LEITFRAGE
+Wie hängen die Nähe zu Boeing, Fluglärm und der Zugang zur Flughafenbahn mit Hauspreisen zusammen, wenn Hausmerkmale und räumliche Lage berücksichtigt werden?
+Die gemeinsame Erkenntnis lautet: Deutliche Rohpreisunterschiede sind sichtbar. Ihre Zuordnung zu einem eigenständigen Standort-, Lärm- oder Anbindungseffekt ist jedoch nicht robust. Es handelt sich um Beobachtungsdaten und explorative Modelle, nicht um kausale Effekte.
+
+DATENBASIS
+21.597 Verkäufe vom 02.05.2014 bis 27.05.2015. King County, nicht die gesamte Metropolregion Seattle. Snohomish County und das direkte Umfeld von Boeing Everett sind nicht abgedeckt. Everett ist deshalb aus dieser Hypothesenfolge ausgeschlossen.
+Original-CSV SHA-256: d08eaa479a137962dd43735b7b930a6553e675bb61e39671af0802c90d21c7af.
+sale_id ist der eindeutige Verkaufsschlüssel. Immobilien-id kann mehrfach vorkommen: 21.420 unterschiedliche Häuser, 177 zusätzliche Verkaufszeilen. Modellierung verwendet überwiegend 21.596 Verkäufe, weil die einzelne auffällige Angabe von 33 Schlafzimmern ausgeschlossen wurde. Beschreibungen und Zusatzdateien enthalten alle Verkäufe. Die Originalangabe wurde nicht korrigiert.
+
+1. FLUGLÄRM – EMPFOHLENE HAUPTHYPOTHESE
+Hypothese: Häuser innerhalb der angenäherten 65–70-dB-DNL-Zone erzielen niedrigere Preise als vergleichbare Häuser im nahen Umfeld außerhalb der Kontur.
+
+Rohdaten:
+- Innen: 45 Verkäufe, Median 218.000 USD.
+- Außen bis 2 km Abstand zur Zonengrenze: 761 Verkäufe, Median 260.000 USD.
+- Lokaler Medianunterschied: −16,2 %.
+- Außen im gesamten County: Median 450.000 USD. Dieser Vergleich ergibt −51,6 %, ist aber durch sehr unterschiedliche Teilmärkte stark verzerrt.
+- Innen sind Häuser kleiner: Median 1.210 gegenüber 1.560 sqft. Qualitätsstufe im Median 6 statt 7.
+
+Modelle im lokalen Umfeld:
+- Hausmerkmale + Verkaufsmonat + PLZ: −4,6 %, 95%-HC3-Intervall −11,3 bis +2,5 %.
+- Zusätzlich räumliche Terme und Entfernung zur Flughafenbahnstation: −0,8 %, Intervall −8,1 bis +7,1 %.
+- Ohne 150-m-Grenzfälle: nur 21 Innenverkäufe; −6,9 %, Intervall −16,4 bis +3,6 %.
+
+Einordnung: Der deskriptive Preisunterschied ist beobachtet. Ein eigenständiger Lärmabschlag ist nicht eindeutig nachgewiesen. Das ist kein Nachweis, dass Fluglärm keinen Einfluss hat.
+Grenzen: Bildkarte 2013 als zeitlicher Näherungswert für 2014/15; Konturen manuell nachgezeichnet, keine amtlichen GIS-Polygone. 24 der 45 Innenfälle liegen höchstens 150 m von der Grenze entfernt. Ab 70 dB gibt es keine Verkäufe. Außerhalb der Kontur bedeutet nicht lärmfrei. Keine Dosis-Wirkungs-Aussage möglich. Nur zwei PLZ-Gebiete enthalten Innenfälle. Der einzelne signifikante Befund im Szenario mit erweiterter Kontur und Rasterclusterung ist nicht robust gegenüber der Unsicherheitsmethode und nicht für Mehrfachtests korrigiert.
+
+Präsentation: Sehr geeignet als explorative Hauptanalyse. Sie zeigt anschaulich, warum lokaler Vergleich, Hausmerkmale und Messunsicherheit entscheidend sind. Karte als angenähert kennzeichnen, danach lokaler Medianvergleich und bereinigte Schätzung mit Intervall.
+
+2. BOEING – EMPFOHLENE ERGÄNZUNG ZUR RÄUMLICHEN VERZERRUNG
+Hypothese: Die Entfernung zu den Boeing-Standorten Renton, Auburn und Kent hängt mit Hauspreisen zusammen; insbesondere könnte Nähe durch kürzere Arbeitswege einen Preisaufschlag aufweisen.
+Die Arbeitnehmer-/Pendelinterpretation ist eine mögliche Erklärung, keine gemessene Eigenschaft. Arbeitgeber und Beruf der Käufer sind unbekannt.
+
+Medianpreis bis 5 km / über 20 km:
+- Renton: 350.000 / 458.000 USD.
+- Auburn: 250.600 / 515.000 USD.
+- Kent: 275.000 / 549.950 USD.
+
+Mit Hausmerkmalen, Verkaufsmonat und PLZ, jeweils pro 5 km ZUSÄTZLICHER Entfernung:
+- Renton: −2,9 %, 95%-Intervall −5,4 bis −0,4 %.
+- Auburn: +0,6 %, Intervall −3,7 bis +5,1 %.
+- Kent: −1,2 %, Intervall −4,5 bis +2,2 %.
+Negative Entfernungseffekte würden in diesem Modell einen Näheaufschlag bedeuten. Das gilt nicht für alle Modellvarianten: Mit zusätzlichen räumlichen Termen wechselt Renton auf +13,4 % und Kent auf +21,2 %. Im 15-km-Umfeld ergibt Renton ebenfalls einen positiven Entfernungskoeffizienten. Die Interpretation ist somit stark modellabhängig. Mehrfachverkäufe oder extreme Preise erklären diese Instabilität nicht wesentlich.
+
+Einordnung: Kein robuster eigenständiger Boeing-Näheeffekt. Rohunterschiede bilden auch regionale Preisunterschiede ab. Die Entfernung ist selbst eine Funktion der räumlichen Lage; zusätzliche Koordinatenterme lösen die Identifizierungsfrage nicht automatisch. Ein höheres R² beweist keine bessere kausale Trennung.
+Grenzen: Luftlinie zu Standortreferenzpunkten, keine Werkstore oder Pendelzeiten. Koordinaten aus heutigem Behördenregister mit historischen Belegen; historische Zuordnung bei Kent unsicherer. Separate Standortmodelle isolieren keine voneinander unabhängigen Werkseffekte.
+
+Präsentation: Gut als Ergänzung. Auburn liefert einen einfachen Vergleich „großer Rohunterschied, nach Lagekontrolle uneindeutig“. Renton eignet sich als Beispiel für einen Vorzeichenwechsel. Nicht alle Modellvarianten auf eine Folie drängen; Details in den Anhang.
+
+3. FLUGHAFENANBINDUNG – EXPLORATIVE ERGÄNZUNG / ANHANG
+Präzise Hypothese: Häuser bis 800 m Luftlinie von einer 2014/15 betriebenen Central-Link-Station erzielen höhere Preise als vergleichbare Häuser über 800 m bis 3 km von der nächsten Station.
+Zusätzlich untersucht: reine Luftlinienentfernung zum Flughafenbahnhof. Dieses zweite Merkmal misst Flughafennähe, nicht tatsächliche Anbindung.
+
+Historischer Stand: 13 betriebene Central-Link-Stationen. Capitol Hill, University of Washington und Angle Lake ausgeschlossen, da noch nicht in Betrieb. Stationsliste aus Sound Transit 2015; Koordinaten aus OSM 2015-01-01.
+- Bis 800 m: 300 Verkäufe, Median 375.000 USD.
+- Über 800 m bis 3 km: 1.503 Verkäufe, Median 412.000 USD.
+- Medianunterschied: rund −9,0 %; ein Rohpreisaufschlag zeigt sich nicht.
+- Hausmerkmale + Monat + Stationsgebiet + PLZ + angenäherte Lärmzone: −7,2 %, 95%-PLZ-Clusterintervall −10,7 bis −3,6 %.
+- Zusätzlich räumliche Terme und Flughafenentfernung: −2,0 %, Intervall −4,1 bis +0,1 %.
+- Flughafennähe: je 5 km zusätzliche Entfernung mit Haus/PLZ/Lärm −1,9 % (−4,9 bis +1,2 %), mit Raumtermen +18,5 %. Das Vorzeichen ist damit nicht stabil.
+
+Einordnung: Die behauptete Näheprämie wird durch die gewählten Näherungsmerkmale nicht robust gestützt. Kein isolierter Flughafen-Effekt nachgewiesen. Ein signifikanter Abschlag in einer Modellvariante darf nicht als Nachweis eines allgemeinen Nachteils der Anbindung dargestellt werden.
+Grenzen: Luftlinie statt Geh-, Auto- oder Tür-zu-Tür-Reisezeit; keine Busverbindungen. Stationspunkte statt verifizierter Zugänge. Nähe zur Bahn bedeutet auch Zugang zu Downtown und anderen Arbeitsplätzen. 279 der 300 nahen Verkäufe liegen bei Beacon Hill, Mount Baker, Columbia City, Othello oder Rainier Beach; bei mehreren Downtown-Stationen keine Verkäufe bis 800 m. Lokale Modelle umfassen nur 16 PLZ-Cluster.
+
+Präsentation: Interessant, wenn als historische ÖPNV-Nähe formuliert. Wegen der eingeschränkten Messung weniger geeignet als zentrale Aussage über „Flughafenanbindung“. Bei kurzer Präsentation in den Anhang verschieben.
+
+EMPFOHLENE PRÄSENTATIONSFOLGE (INHALTSPLAN, KEIN FERTIGER FOLIENSATZ)
+1. Frage, Datenbasis und Karte: King County 2014/15; räumliche Begrenzung und historischer Bezug.
+2. Fluglärm: lokale Rohpreise, Hausunterschiede, angepasster Vergleich mit Intervall und Grenzunsicherheit.
+3. Boeing: Auburn als Roh-/Lagevergleich; Renton als Beispiel für Modellabhängigkeit.
+4. Optional Flughafenbahn: historisches Netz, kein robuster Näheaufschlag; allgemeine Bahn- und Flughafennutzung nicht trennbar.
+5. Gemeinsame Erkenntnis und Grenzen: Zusammenhänge untersuchen, Alternativerklärungen prüfen, Unsicherheit sichtbar machen. Keine Kausalbehauptung, keine pauschale Kaufempfehlung.
+
+ZULÄSSIGE KERNAUSSAGE
+„Rohpreisunterschiede sind sichtbar. Nach Berücksichtigung von Hausmerkmalen und Lage werden sie deutlich kleiner oder hängen stark von der Modellwahl ab. Ein eigenständiger Einfluss von Boeing-Nähe, Fluglärm oder Flughafenanbindung lässt sich mit diesen Daten nicht robust isolieren.“
+
+NICHT ALS PRÄSENTATIONSERGEBNIS VERWENDEN
+- „Fluglärm senkt Hauspreise um 16 %.“ Das ist ein Roh-Medianunterschied, kein kausaler Effekt.
+- „Boeing erhöht/senkt Hauspreise um X %.“ Standort- und Lageeffekte sind nicht zuverlässig getrennt.
+- „Flughafenanbindung ist wertlos/senkt den Wert.“ Die Messung erfasst nur ausgewählte Näherungsmerkmale.
+- „Nicht signifikant bedeutet kein Effekt.“ Fehlender eindeutiger Nachweis kann auch an geringer Präzision liegen.
+- „Die Hypothesen sind bestätigt.“ Die Analysen sind explorativ; Kontrollvarianten wurden nicht vorab festgelegt.
+
+ABGRENZUNG ZU DEN PROFILEN DER KOMMILITONEN
+Der eigenständige Schwerpunkt sind historisch belegte externe Infrastruktur- und Standortmerkmale sowie deren Messunsicherheit. Keine erneute allgemeine Analyse von Renovierungsrendite, Kauf-/Verkaufszeitpunkt, Wasserlage, Familienbedürfnissen oder der „besten Nachbarschaft“. Allgemeine Lage ist ein notwendiger Kontrollfaktor; eine völlige thematische Überschneidungsfreiheit mit sehr breiten Standortprofilen ist nicht garantierbar.
+
+UMSETZUNG UND PRÜFUNG
+1. Vorhandene Analyse und Zusatzspalten inventarisieren. Definitionen, Einheiten und Datumsbezug abgleichen.
+2. Zusatzdateien per sale_id und validate='one_to_one' verbinden. Nicht allein per Immobilien-id oder Zeilennummer. Koordinaten/Datum abgleichen, Zeilenzahl und Reihenfolge erhalten. Bereits entfernte Zeilen nicht wieder einfügen. Bestehende Spalten nicht still überschreiben.
+3. Bei korrigierten Koordinaten räumliche Merkmale neu berechnen. Bestehende Lärmmerkmale nicht mehrfach importieren. Flughafenbahnhof-Entfernung aus der Lärmanalyse und airport_km nicht als exakt identisch behandeln: erstere ist metrische UTM-Luftlinie, letztere Haversine-Luftlinie.
+4. Jeden Rohvergleich mit Anzahl, Median und räumlicher Vergleichsgruppe zeigen. Roh-Medianunterschiede nicht mit exp(beta)-Werten aus Logpreisregressionen gleichsetzen. Gleiche Verkäufe kommen in mehreren Standortanalysen vor; Gruppenzahlen zwischen Analysen nicht addieren.
+5. Hauskontrollen: Wohn-/Grundstücksfläche, Schlafzimmer, Badezimmer, Etagen, grade, Zustand, Alter, Aussicht, Wasserlage und Verkaufsmonat. Exakte Formeln stehen jeweils in modelle.csv. Fehlende Wasserlage/Aussicht als eigene Kategorien; problematisches Renovierungsjahr nicht ungeprüft verwenden.
+6. Räumliche Kontrollen, Teilstichproben und Grenzszenarien zusammen zeigen. Keine Modellwahl nach gewünschter Richtung oder p-Wert. Unterschiedliche Intervallmethoden kennzeichnen: Boeing PLZ-Cluster; Fluglärm hauptsächlich HC3 mit Raster-Sensitivität; Flughafenbahn PLZ-Cluster mit HC3-Sensitivität.
+7. Die drei bestehenden Auswertungen sind keine einheitliche gemeinsame Regression mit allen Expositionen. Keine additiven Gesamteffekte behaupten. Ein gemeinsames Modell wäre eine neue Analyse und müsste wegen räumlicher Überlagerung und sehr kleiner Lärmstichprobe gesondert geprüft werden.
+8. Ergebnisabweichungen nach Claudes Bereinigung dokumentieren. Quellprüfsummen und regionale/historische Einschränkungen erhalten. OSM-Attribution und ODbL-Hinweise beibehalten.
+
+PAKETSTRUKTUR
+- GEMEINSAME_CLAUDE_UEBERGABE.txt: dieses Dokument.
+- boeing_preisanalyse/: Bericht, Grafiken, Tabellen und Berechnung. Der ältere Boeing-Reproduktionscode nutzt noch die ursprünglichen lokalen Pfade; diese vor einer Ausführung an die Paketstruktur und den CSV-Pfad anpassen.
+- boeing_zusatzdaten/: Entfernungsmerkmale und Standortquellen für den Boeing-Join. Die Spalten für Everett nicht in diese Hypothesenfolge übernehmen. nearest_of_four ist kein Merkmal „nächster der drei Standorte“.
+- fluglaerm_preisanalyse/: Bericht, Modelle, Zusatzmerkmale, Quellen und portable Berechnung mit --source/--output.
+- flughafenanbindung_preisanalyse/: Bericht, Modelle, Zusatzmerkmale, historische Stationsliste und portable Berechnung mit --source/--output.
+Die Original-CSV ist absichtlich nicht kopiert; ihren Pfad explizit übergeben. Die bisherigen Notebooks wurden weder ausgeführt noch verändert.
+
+OPTIONALER KI1-/KI2-VERGLEICH
+Diese Übergabe ist bereits ein Input für Claude. Ein nachfolgender Vergleich wäre daher ein sequenzieller Review, kein unabhängiger Blindvergleich zweier Modelle. Für die Präsentation nachvollziehbare Kriterien vergleichen: erkannte Datenprobleme, historisch korrekte Merkmale, räumliche Kontrollen, Unsicherheitsdarstellung und Reproduzierbarkeit. Keine Modellüberlegenheit aus unterschiedlichen Datenfiltern oder einzelnen p-Werten ableiten.

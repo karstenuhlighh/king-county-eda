@@ -1,0 +1,30 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.2968498,
+          47.4452965
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 405102726,
+        "tags": {
+          "name": "SeaTac Airport",
+          "railway": "station",
+          "source": "yahoo_wms"
+        },
+        "snapshot": "2015-01-01",
+        "status": "historical_station_point; not road_terminal_entrance",
+        "site_id": "sea_airport_station_2015",
+        "source_url": "https://download.geofabrik.de/north-america/us/washington-150101.osm.pbf",
+        "reference_timestamp": "2015-01-01T21:22:01Z",
+        "license": "ODbL; OpenStreetMap contributors"
+      }
+    }
+  ]
+}

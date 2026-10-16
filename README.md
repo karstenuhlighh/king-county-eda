@@ -1,136 +1,100 @@
-# King County Housing EDA Project Template
+# King County: Was bestimmt den Verkaufspreis? Eine EDA für Charles Christensen
 
-This is the starter template for the Exploratory Data Analysis (EDA) project. You will work with the King County housing dataset (home sales in and around Seattle, USA), uncover what drives house prices, and turn your findings into insights and recommendations for a client you choose.
+Explorative Datenanalyse (EDA) der Hausverkäufe in King County (Seattle und Umgebung) von Mai 2014 bis Mai 2015. Projekt im Data-Science-Bootcamp von neuefische, Woche 4.
 
-## Learning Objectives
+## Kunde und Fragestellung
 
-By the end of this repository, you should be able to:
+**Charles Christensen** ist Verkäufer und Investor. Er will hohe Renditen und fragt:
 
-- Connect to a PostgreSQL database from Python and load query results into a pandas DataFrame.
-- Frame an exploratory data analysis around clear research questions and hypotheses.
-- Clean and wrangle a real-world dataset by handling missing values, outliers, and feature transformations.
-- Explore distributions and the relationships between features and the target variable (price).
-- Translate your analysis into at least three insights and three client-specific recommendations.
-- Present your work to a non-technical audience.
+- Lohnt sich eine Renovierung vor dem Verkauf?
+- Welche Lage zahlt sich aus?
+- Wann verkauft man am besten?
 
-## Learning Path
+## Daten
 
-Work through the files in order. Start with the assignment to understand the goal, follow the workflow as your guide, fetch the data, then run your analysis in the EDA notebook.
+- **21.597 Verkäufe** von 21.420 Häusern, 02.05.2014 bis 27.05.2015, King County (Washington, USA)
+- Quelle: Kurs-Datenbank, Schema `eda`, zwei Tabellen (Hausdetails und Verkäufe), verbunden über `house_id = id`
+- Spaltenbeschreibung: [column_names.md](column_names.md)
+- Die Rohdaten liegen **nicht** im Repository. [03_fetching_the_data_eda.ipynb](03_fetching_the_data_eda.ipynb) lädt sie aus der Datenbank nach `data/king_county.csv` (siehe Setup).
 
-> [!TIP]
-> The data lives in the **eda** schema of the database and is split across two tables. Before fetching anything in code, connect with DBeaver and explore that schema: inspect both tables, check [**Column Names**](column_names.md) for what each field means, and work out how to join them. Once you have a working `JOIN`, use it as the query in [**03 - Fetching the Data**](03_fetching_the_data_eda.ipynb) to load the combined dataset into pandas.
+## Hypothesen und Ergebnisse
 
-| File / Folder                                                   | Description                                                                                                              |
-| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| [**01 - Assignment**](01_assignment.md)                      | The project brief: the dataset, your tasks, deliverables, and the list of clients to choose from.                        |
-| [**02 - Workflow**](02_workflow.md)                          | A recommended EDA workflow, from understanding and questioning the data through cleaning, relationships, and presenting. |
-| [**03 - Fetching the Data**](03_fetching_the_data_eda.ipynb) | Connect to the PostgreSQL database with psycopg2 and SQLAlchemy, then pull the data into a pandas DataFrame.             |
-| [**04 - EDA**](04_eda.ipynb)                                 | Starter notebook for your exploratory data analysis.                                                                     |
-| [**Column Names**](column_names.md)                          | Data dictionary describing each column in the King County housing dataset.                                               |
+| # | Hypothese | Ergebnis |
+|---|---|---|
+| H1 | Renovierte Häuser verkaufen sich besser als unrenovierte. | **Teilweise bestätigt, als Zusammenhang.** Roh +24 % beim Preis pro m². Bei vergleichbarer Größe, Lage, Alter, Wasserlage und Verkaufsmonat bleiben rund **+6 %** beim Gesamtpreis (95-%-Intervall 4 bis 8 %). Keine Rendite, da Renovierungskosten fehlen. |
+| H2 | Je näher am Zentrum von Seattle, desto höher der Preis pro m². | **Bestätigt als enger Zusammenhang.** Bis 5 km vom Zentrum rund 3.980 $/m², über 30 km rund 1.800 $/m². Teuer sind das Zentrum, der Norden Seattles und das Ostufer des Lake Washington (Bellevue, Medina, Mercer Island). Lage ist dabei mehr als Entfernung: Auch die PLZ zählt. |
+| H3 | Die Verkaufspreise im Frühjahr sind höher als im Herbst. | **Nur beschreibend.** Roh +4 %, aber bei gleicher Zusammensetzung der Verkäufe sind die Preise bis Januar 2015 nahezu flach und steigen ab Februar 2015. Saison und allgemeiner Preisanstieg lassen sich mit einem Jahr Daten nicht trennen. |
 
-### Additional Folders and Files
+**Vertiefung zur Lage (Infrastruktur):** Fluglärm am Flughafen Seattle-Tacoma, Nähe zu den Boeing-Werken und Nähe zur Stadtbahn Central Link (Stand 2015). Bei allen drei Merkmalen gibt es sichtbare Rohpreisunterschiede, zum Beispiel -16 % in der Fluglärmzone gegenüber dem direkten Umfeld. Nach Berücksichtigung von Hausmerkmalen und Lage werden sie deutlich kleiner oder hängen stark vom Modell ab. Ein eigenständiger Effekt lässt sich mit diesen Daten nicht robust nachweisen.
 
-| File / Folder                           | Description                                                                                    |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [**Data**](data/)                    | Where you save the dataset CSV. The folder is tracked, but its data files are kept out of git. |
-| [**.env.example**](.env.example)     | Template for the database credentials. Copy it to `.env` and fill in your values.            |
-| [**pyproject.toml**](pyproject.toml) | Project configuration and dependencies.                                                        |
-| [**uv.lock**](uv.lock)               | Dependency lock file.                                                                          |
+## Erkenntnisse
+
+1. **Die Lage prägt den Preis pro m² am stärksten (geografisch).** Zentrum, Norden und Ostufer sind teuer, der Süden ist günstiger. Zwischen den PLZ liegt bis zum Faktor 3,9.
+2. **Renovierung hängt mit höheren Preisen zusammen**, aber weit weniger als im rohen Vergleich: rund +6 % bei vergleichbaren Häusern.
+3. **Einzelne Infrastrukturmerkmale lassen sich schwer isoliert nachweisen.** Fluglärm, Bahn- und Werksnähe zeigen keine einfachen, pauschalen Preiseffekte.
+
+## Empfehlungen für Charles
+
+1. **Lagevergleich priorisieren:** Das Haus vor allem mit ähnlichen Häusern im direkten Umfeld vergleichen.
+2. **Renovierung wirtschaftlich prüfen:** Vor der Entscheidung Kosten, Umfang und mögliche Preiswirkung realistisch kalkulieren. Die Daten zeigen einen Zusammenhang, keine garantierte Rendite.
+3. **Keine pauschalen Auf- oder Abschläge ansetzen:** Bei Lärmzone, Werksnähe oder Bahnanbindung immer lokale Vergleichsverkäufe heranziehen.
+
+## Präsentation
+
+Folien (10 Minuten, für Nicht-Techniker): [praesentation/EDA_Charles_Christensen.pdf](praesentation/EDA_Charles_Christensen.pdf)
+
+## Aufbau des Repositorys
+
+| Datei / Ordner | Inhalt |
+|---|---|
+| [04_eda_reviewed.ipynb](04_eda_reviewed.ipynb) | **Hauptanalyse.** Datenqualität, Bereinigung, H1 bis H3, Erkenntnisse und Empfehlungen |
+| [05_infrastruktur_hypothesen.ipynb](05_infrastruktur_hypothesen.ipynb) | Vertiefung zur Lage: Fluglärm (Hauptteil), Boeing, Central Link |
+| [04_eda.ipynb](04_eda.ipynb) | Erste Fassung der Analyse, unverändert zum Nachvollziehen |
+| [review_vergleich.md](review_vergleich.md) | Was sich zwischen erster und überarbeiteter Fassung geändert hat und warum |
+| [03_fetching_the_data_eda.ipynb](03_fetching_the_data_eda.ipynb) | Daten aus der Kurs-Datenbank laden |
+| [bilder/](bilder/) | Diagramme und Karten. `bilder/review/` gehört zu 04_eda_reviewed, `bilder/infrastruktur/` zu 05 |
+| [infrastruktur_daten/](infrastruktur_daten/) | Lärmkonturen, Boeing-Standorte, Stationsliste mit Quellenangaben |
+| [01_assignment.md](01_assignment.md), [02_workflow.md](02_workflow.md) | Aufgabenstellung und empfohlener Ablauf |
+
+## Vorgehen und Einsatz von KI
+
+Die Analyse ist mit KI-Unterstützung entstanden, die Verantwortung für Inhalte und Schlussfolgerungen liegt beim Autor.
+
+1. **Erste Analyse** (`04_eda.ipynb`) mit Claude Code.
+2. **Kritisches Review** der Methodik durch ChatGPT/Codex.
+3. **Gegenprüfung an den Daten** und Überarbeitung mit Claude Code (`04_eda_reviewed.ipynb`, `review_vergleich.md`). Jeder Review-Punkt wurde an den Daten geprüft, nicht ungeprüft übernommen. Dabei wurden echte Fehler gefunden und korrigiert (zum Beispiel 6 Renovierungen nach dem Verkaufsdatum, die mitgezählt wurden), mehrere Aussagen wurden präziser eingeschränkt.
+
+Die Zusammenarbeit war nacheinander, kein unabhängiger Blindvergleich.
+
+## Grenzen
+
+- Nur ein Jahr Daten. Saisoneffekte und allgemeine Preisentwicklung sind nicht trennbar.
+- Keine Kaufpreise, Renovierungskosten oder Inseratsdaten, daher keine Aussagen über Rendite oder Ursachen.
+- Alle Ergebnisse sind Zusammenhänge in Beobachtungsdaten, keine kausalen Effekte.
+- Die Fluglärmzonen sind aus einer Karte von 2013 angenähert, nicht amtlich.
 
 ## Setup
 
-> [!NOTE]
-> Throughout these steps, text in angle brackets like `<repo-name>` is a **placeholder**. Replace it, including the `< >` brackets, with your own value. For example, `cd <repo-name>` becomes `cd ds-eda-project-template`.
-
-### 1. Create the Repository from the Template
-
-Click **Use this template** on GitHub.
-
-When creating the repository:
-
-- Set yourself as the **Owner**
-- Choose a repository name
-- Disable **Include all branches**
-- Click **Create repository**
-
-> [!IMPORTANT]
-> If you are working in pairs or groups, only **one person** should complete this step.
----
-
-### 2. Add Collaborators (Pairs/Groups Only)
-
-If working with teammates:
-
-1. Open the repository on GitHub
-2. Go to **Settings → Collaborators**
-3. Add your teammates as collaborators
-4. Share the repository link with your team
-
-Teammates should accept the invitation before continuing.
-
----
-
-### 3. Clone the Repository
-
-Copy the SSH URL from the **Code** button on GitHub, then run:
+Voraussetzungen: [uv](https://docs.astral.sh/uv/), Zugang zur Kurs-Datenbank.
 
 ```bash
-git clone <copied-ssh-url>
-```
-
-The copied SSH URL will look like `git@github.com:<your-username>/<repo-name>.git`.
-
----
-
-### 4. Move into the Project Folder and Install Dependencies
-
-This installs all dependencies and creates a virtual environment in `.venv/`.
-
-```bash
-cd <repo-name>
+git clone git@github.com:karstenuhlighh/king-county-eda.git
+cd king-county-eda
 uv sync
+cp .env.example .env   # Zugangsdaten der Kurs-Datenbank eintragen, .env nie committen
 ```
 
-> [!TIP]
-> Need a library that is not installed yet (for example a mapping)? Add it with `uv add <package-name>`. This updates `pyproject.toml` and `uv.lock` and installs it into your `.venv`. Commit both files; teammates then run uv sync after pulling to get the same environment.
+Dann in VS Code aus dem Projektordner öffnen, als Kernel die `.venv` wählen und die Notebooks in dieser Reihenfolge ausführen:
 
----
+1. `03_fetching_the_data_eda.ipynb` (erzeugt `data/king_county.csv`)
+2. `04_eda_reviewed.ipynb`
+3. `05_infrastruktur_hypothesen.ipynb`
 
-### 5. Set up your Database Credentials
+Python 3.13, wichtigste Pakete: pandas, numpy, matplotlib, seaborn, plotly, statsmodels, shapely, pyproj.
 
-The data-fetching notebook reads the database connection details from a `.env` file. Copy the template and fill in your own values:
+## Quellen
 
-```bash
-cp .env.example .env
-```
-
-Open `.env` and replace the placeholders with the credentials for the King County housing database (the same ones you use in DBeaver). These values feed [**03 - Fetching the Data**](03_fetching_the_data_eda.ipynb).
-
-> [!CAUTION]
-> `.env` holds secrets and must never be committed. It is already listed in `.gitignore`. Only `.env.example`, with placeholder values, belongs in the repository.
-
----
-
-### 6. Open the Notebooks
-
-> [!NOTE]
-> Make sure you open VS Code from the project root so it automatically detects the environment created by uv sync.
-
-Launch VS Code in the project root folder:
-
-```bash
-code .
-```
-
-Then open a notebook and select the Python environment created by `uv sync` as the kernel.
-
-## References & Further Reading
-
-- [**House Sales in King County dataset**](https://www.kaggle.com/datasets/harlfoxem/housesalesprediction): The source dataset, with column descriptions and community notebooks.
-- [**Pandas user guide**](https://pandas.pydata.org/docs/user_guide/index.html): The official guide to data manipulation with pandas.
-- [**Seaborn tutorial**](https://seaborn.pydata.org/tutorial.html): Statistical data visualization in Python.
-- [**SQLAlchemy documentation**](https://docs.sqlalchemy.org/en/20/): The database toolkit used to query PostgreSQL from Python.
-- [**Hypothesis generation for EDA**](https://www.analyticsvidhya.com/blog/2020/11/an-efficient-way-of-performing-eda-hypothesis-generation/): How to form research questions and hypotheses before diving into the data.
-- [**EDA Checklist**](https://github.com/neuefische/datascience-infographics/blob/main/EDA_Checklist.md): A phase-by-phase checklist for working through an exploratory analysis.
-- [**Detailed EDA with Python**](https://www.kaggle.com/code/ekami66/detailed-exploratory-data-analysis-with-python): A worked example of a thorough EDA notebook on real data.
-- [**Tips for data science presentations**](https://www.dataknowsall.com/storytelling.html): Storytelling techniques for presenting results to a non-technical audience.
+- King County House Sales: [Kaggle](https://www.kaggle.com/datasets/harlfoxem/housesalesprediction), bereitgestellt über die Kurs-Datenbank
+- Lärmkarte: Seattle-Tacoma International Airport, Noise Exposure Map 2013
+- Stationen: Sound Transit 2015. Koordinaten © OpenStreetMap contributors, ODbL
+- Kartenhintergrund der interaktiven Karte: © CARTO, © OpenStreetMap contributors

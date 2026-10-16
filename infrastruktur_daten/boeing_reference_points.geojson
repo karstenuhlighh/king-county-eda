@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.20533,
+          47.499474
+        ]
+      },
+      "properties": {
+        "site_id": "boeing_renton",
+        "name": "Boeing Renton – 737 Assembly",
+        "address": "737 Logan Ave North, Renton",
+        "coordinate_source": "https://apps.ecology.wa.gov/paris/FacilityDetails.aspx?FacilityId=21957",
+        "historical_source": "https://s2.q4cdn.com/661678649/files/doc_downloads/env_reports/2014_environment_report.pdf",
+        "historical_evidence": "permit periods 2010–2014 and 2015–2019; report 2014",
+        "coordinate_vintage": "current register retrieved 2026-10-14, not surveyed in 2014",
+        "coordinate_role": "facility reference point, NOT employee gate",
+        "use_status": "exploratory_straight_line_distance_only",
+        "employment_2014": null,
+        "gate_verified": false,
+        "crs_note": "decimal geographic coordinates from Ecology; assume WGS84 for exploratory use, source datum not verified"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.242645,
+          47.288574
+        ]
+      },
+      "properties": {
+        "site_id": "boeing_auburn",
+        "name": "Boeing Auburn",
+        "address": "700 15th St SW, Auburn",
+        "coordinate_source": "https://apps.ecology.wa.gov/paris/FacilityDetails.aspx?FacilityId=18959",
+        "historical_source": "https://s2.q4cdn.com/661678649/files/doc_downloads/env_reports/2014_environment_report.pdf",
+        "historical_evidence": "permit period 2014–2015; report 2014",
+        "coordinate_vintage": "current register retrieved 2026-10-14, not surveyed in 2014",
+        "coordinate_role": "facility reference point, NOT employee gate",
+        "use_status": "exploratory_straight_line_distance_only",
+        "employment_2014": null,
+        "gate_verified": false,
+        "crs_note": "decimal geographic coordinates from Ecology; assume WGS84 for exploratory use, source datum not verified"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.251785,
+          47.421772
+        ]
+      },
+      "properties": {
+        "site_id": "boeing_kent",
+        "name": "Boeing Space Center Kent",
+        "address": "20403 68th Ave S, Kent",
+        "coordinate_source": "https://apps.ecology.wa.gov/paris/FacilityDetails.aspx?FacilityId=7718",
+        "historical_source": "https://s2.q4cdn.com/661678649/files/doc_downloads/env_reports/2014_environment_report.pdf",
+        "historical_evidence": "report 2014: Kent; facility identity and address from current register",
+        "coordinate_vintage": "current register retrieved 2026-10-14, not surveyed in 2014",
+        "coordinate_role": "facility reference point, NOT employee gate",
+        "use_status": "exploratory_straight_line_distance_only",
+        "employment_2014": null,
+        "gate_verified": false,
+        "crs_note": "decimal geographic coordinates from Ecology; assume WGS84 for exploratory use, source datum not verified"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.272815,
+          47.919437
+        ]
+      },
+      "properties": {
+        "site_id": "boeing_everett",
+        "name": "Boeing Everett",
+        "address": "3003 W Casino Rd, Everett",
+        "coordinate_source": "https://apps.ecology.wa.gov/facilitysite/FacilitySite/FacilitySiteReport?FacilitySiteId=2703",
+        "historical_source": "https://s2.q4cdn.com/661678649/files/doc_downloads/env_reports/2014_environment_report.pdf",
+        "historical_evidence": "report 2014; Boeing announcement 2014-02-18",
+        "coordinate_vintage": "current register retrieved 2026-10-14, not surveyed in 2014",
+        "coordinate_role": "facility reference point, NOT employee gate",
+        "use_status": "exploratory_straight_line_distance_only",
+        "employment_2014": null,
+        "gate_verified": false,
+        "crs_note": "decimal geographic coordinates from Ecology; assume WGS84 for exploratory use, source datum not verified"
+      }
+    }
+  ]
+}
